@@ -1,6 +1,7 @@
 package com.ff.logisticsmanangement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,12 @@ public class TruckService {
 	public ResponseEntity<ResponseStructure<Truck>> addTruck(Truck truck) {
 		Truck savedTruck = repository.save(truck);
 		
-		
-		
-		return null;
+		ResponseStructure<Truck> structure = new ResponseStructure<Truck>();
+		structure.setStatusCode(HttpStatus.CREATED.value());
+		structure.setMessage("Success");
+		structure.setData(savedTruck);
+
+		return new ResponseEntity<ResponseStructure<Truck>>(structure, HttpStatus.CREATED);
 	}
 
 }
