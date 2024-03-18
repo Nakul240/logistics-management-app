@@ -14,7 +14,7 @@ import lombok.Data;
 public class Driver {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "driverIdGenerator")
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "driverIdGenerator")
 	@SequenceGenerator(name = "driverIdGenerator",allocationSize = 1,initialValue = 300)
 	private int id;
 	
