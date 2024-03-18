@@ -1,8 +1,9 @@
 package com.ff.logisticsmanangement.dao;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class UserRepository {
+import com.ff.logisticsmanangement.entity.User;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
 
 }
