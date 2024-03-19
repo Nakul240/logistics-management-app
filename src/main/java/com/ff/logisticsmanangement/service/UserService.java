@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ff.logisticsmanangement.dao.UserRepository;
 import com.ff.logisticsmanangement.dto.ResponseStructure;
+import com.ff.logisticsmanangement.dto.UserDto;
 import com.ff.logisticsmanangement.entity.User;
 import com.ff.logisticsmanangement.exception.IdNotFoundException;
 
@@ -19,9 +20,15 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public ResponseEntity<ResponseStructure<User>> saveUser(User user) {
+	public ResponseEntity<ResponseStructure<User>> saveUser(UserDto user) {
 
-		User savedUser = userRepository.save(user);
+		User users = new User();
+		users.setUserName(user.getUserName());
+		users.setUserPassword(user.getUserPassword());
+		users.setUserPhoneNumber(user.getUserPhoneNumber());
+		users.setAddress(user.getAddress());
+		users.setUserRole(user.getUserRole());
+		User savedUser = userRepository.save(users);
 
 		ResponseStructure<User> responseStructure = new ResponseStructure<User>();
 		responseStructure.setStatusCode(HttpStatus.CREATED.value());
