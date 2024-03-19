@@ -14,44 +14,51 @@ import com.ff.logisticsmanangement.entity.Driver;
 
 @Service
 public class DriverService {
-	
-	
+
 	@Autowired
 	private CarrierRepository carrierRepository;
-	
+
 	@Autowired
 	private DriverRepository driverRepository;
-	
-	
-	
-	public ResponseEntity<ResponseStructure<Driver>> saveDriver(DriverDto driverDto){
-		
+
+	public ResponseEntity<ResponseStructure<Driver>> saveDriver(DriverDto driverDto) {
+
 		Carrier carrier = carrierRepository.findById(driverDto.getCarrierId()).orElse(null);
-		
-		if(carrier != null) {
+
+		if (carrier != null) {
 
 			Driver driver = new Driver();
 			driver.setCarrier(carrier);
 			driver.setDriverPhoneNumber(driverDto.getDriverPhoneNumber());
 			driver.setDriverName(driverDto.getDriverName());
 			driver.setTruckRegisterNumber(driverDto.getTruckRegisterNumber());
-			
+
 			driver = driverRepository.save(driver);
-			
+
 			ResponseStructure<Driver> rs = new ResponseStructure<>();
 			rs.setData(driver);
 			rs.setMessage("Success");
 			rs.setStatusCode(HttpStatus.CREATED.value());
-			
+
 			return new ResponseEntity<ResponseStructure<Driver>>(rs, HttpStatus.CREATED);
-			
+
 		}
-		
+
 		// throw carrier id not valid exception here
 		return null;
-		
+
 	}
-	
-	
+
+	public ResponseEntity<ResponseStructure<Driver>> getDriverById(int id) {
+
+		Driver driver = driverRepository.findById(id).orElseThrow(()-> new RuntimeException("Driver not found with "+ id));
+		
+		ResponseStructure<Driver> rs = new ResponseStructure<>();
+		rs.setData(driver);
+		rs.setMessage("Success");
+		rs.setStatusCode(HttpStatus.OK.value());
+
+		return new ResponseEntity<ResponseStructure<Driver>>(rs, HttpStatus.OK);
+	}
 
 }
