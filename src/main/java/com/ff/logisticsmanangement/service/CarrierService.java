@@ -1,5 +1,6 @@
 package com.ff.logisticsmanangement.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,22 +69,31 @@ public class CarrierService {
 			response.setData(recievedCarrier);
 			return new ResponseEntity<ResponseStructure<Carrier>>(response, HttpStatus.OK);
 		} else {
-			throw new IdNotFoundException("Id not found..!");
+			throw new IdNotFoundException("CarrierId not found..!");
 		}
 	}
 
 	// delete the Carrier details
-	public ResponseEntity<ResponseStructure<Carrier>> deleteCarrier(int id) {
+	public ResponseEntity deleteCarrier(int id) {
 		Optional<Carrier> carrier = carrierRespository.findById(id);
 		if (carrier.isPresent()) {
 			carrierRespository.deleteById(id);
-			ResponseStructure<Carrier> response = new ResponseStructure<Carrier>();
-			response.setMessage("Ok");
-			response.setStatusCode(HttpStatus.OK.value());
-			return new ResponseEntity<ResponseStructure<Carrier>>(response, HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.OK);
 		} else {
-			throw new IdNotFoundException("Id not found..!");
+			throw new IdNotFoundException("CarrierId not found..!");
 		}
+	}
+
+	// get all carrier details
+
+	public ResponseEntity<ResponseStructure<List<Carrier>>> getAllCarrier() {
+		List<Carrier> carrierList = carrierRespository.findAll();
+		ResponseStructure<List<Carrier>> response = new ResponseStructure<List<Carrier>>();
+		response.setMessage("success");
+		response.setStatusCode(HttpStatus.OK.value());
+		response.setData(carrierList);
+		return new ResponseEntity<ResponseStructure<List<Carrier>>>(response, HttpStatus.OK);
+
 	}
 
 }
