@@ -13,8 +13,8 @@ import lombok.Setter;
 @Getter
 public class Address {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@SequenceGenerator(name = "user_id", initialValue = 400, allocationSize = 1, sequenceName = "user_sequence")
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "address_id")
+	@SequenceGenerator(name = "address_id", initialValue = 400, allocationSize = 1, sequenceName = "address_sequence")
 	private int addressId;
 	private String streetName;
 	private int houseNumber;
