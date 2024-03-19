@@ -21,6 +21,6 @@ public class Carrier {
 	private Long carrierContact;
 	private String carrierEmail;
 	@OneToMany
-	private List<Driver>driver;
+	private List<Driver> driver;
 
 }
