@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ff.logisticsmanangement.dao.UserRepository;
 import com.ff.logisticsmanangement.dto.ResponseStructure;
 import com.ff.logisticsmanangement.dto.UserDto;
 import com.ff.logisticsmanangement.entity.User;
 import com.ff.logisticsmanangement.exception.IdNotFoundException;
+import com.ff.logisticsmanangement.util.RequestMapper;
 
 @Service
 public class UserService {
@@ -20,14 +22,12 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private RequestMapper requestmapper;
+
 	public ResponseEntity<ResponseStructure<User>> saveUser(UserDto user) {
 
-		User users = new User();
-		users.setUserName(user.getUserName());
-		users.setUserPassword(user.getUserPassword());
-		users.setUserPhoneNumber(user.getUserPhoneNumber());
-		users.setAddress(user.getAddress());
-		users.setUserRole(user.getUserRole());
+		User users = requestmapper.requestUser(user);
 		User savedUser = userRepository.save(users);
 
 		ResponseStructure<User> responseStructure = new ResponseStructure<User>();
