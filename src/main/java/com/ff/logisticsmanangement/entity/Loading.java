@@ -16,18 +16,16 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Unloading {
-
+public class Loading {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "unloading_id")
-	@SequenceGenerator(name = "unloading_id", initialValue = 800, allocationSize = 1, sequenceName = "unloading_sequence")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "loading_seq")
+	@SequenceGenerator(name = "loading_seq", sequenceName = "loading_seq", allocationSize = 1, initialValue = 600)
 	private int id;
 	private String companyName;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	@Temporal(TemporalType.DATE)
-	private Date unloadingDate;
+	private Date loadingDate;
 	@Temporal(TemporalType.TIME)
-	private Time unloadingTime;
-
+	private Time loadingTime;
 }

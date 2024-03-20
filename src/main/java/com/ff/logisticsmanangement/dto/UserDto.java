@@ -2,9 +2,12 @@ package com.ff.logisticsmanangement.dto;
 
 import com.ff.logisticsmanangement.entity.Address;
 import com.ff.logisticsmanangement.util.Role;
+
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+
 import lombok.Builder;
+
 import lombok.Data;
 
 @Data
