@@ -13,7 +13,7 @@ public class Cargo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cargo_id")
 	@SequenceGenerator(name = "cargo_id", initialValue = 700, allocationSize = 1, sequenceName = "cargo_sequence")
-	private int cargoId;
+	private int id;
 	private String cargoName;
 	private String cargoDescription;
 	private double cargoWeight;
