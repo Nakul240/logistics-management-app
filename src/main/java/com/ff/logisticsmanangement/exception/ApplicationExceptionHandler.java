@@ -20,4 +20,13 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(DateMismatchException.class)
+	public ResponseEntity<ResponseStructure<String>> catchDateMismatchException(DateMismatchException exception){
+		ResponseStructure<String> structure = new ResponseStructure<String>();
+		structure.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		structure.setMessage("Bad Request");
+		structure.setData(exception.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.BAD_REQUEST);
+	}
+	
 }
