@@ -34,7 +34,7 @@ public class OrderService {
 			Carrier carrier = getCarrier.get();
 			order.setCarrier(carrier);
 			Order getOrder = requestMapper.getOrder(order);
-			getOrder.setOrderStatus(OrderStatus.Pending); 
+			getOrder.setOrderStatus(OrderStatus.Pending);
 			Order savedOrder = orderRepository.save(getOrder);
 
 			ResponseStructure<Order> response = new ResponseStructure<Order>();
