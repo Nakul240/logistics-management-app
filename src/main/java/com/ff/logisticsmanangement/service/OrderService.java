@@ -34,13 +34,13 @@ public class OrderService {
 			Carrier carrier = getCarrier.get();
 			order.setCarrier(carrier);
 			Order getOrder = requestMapper.getOrder(order);
-			getOrder.setOrderStatus(OrderStatus.Pending);
+			getOrder.setOrderStatus(OrderStatus.Pending); 
 			Order savedOrder = orderRepository.save(getOrder);
 
 			ResponseStructure<Order> response = new ResponseStructure<Order>();
 			response.setData(savedOrder);
 			response.setStatusCode(HttpStatus.CREATED.value());
-			response.setMessage("sucess");
+			response.setMessage("Success");
 			return new ResponseEntity<ResponseStructure<Order>>(response, HttpStatus.CREATED);
 		} else {
 			throw new IdNotFoundException("carrierId not found..!");

@@ -11,8 +11,8 @@ import lombok.Data;
 @Data
 public class Cargo {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cargo_id")
-	@SequenceGenerator(name = "cargo_id", initialValue = 700, allocationSize = 1, sequenceName = "cargo_sequence")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cargo_sequence")
+	@SequenceGenerator(name = "cargo_sequence", sequenceName = "cargo_sequence", initialValue = 700, allocationSize = 1)
 	private int id;
 	private String cargoName;
 	private String cargoDescription;
