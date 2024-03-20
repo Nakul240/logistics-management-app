@@ -12,22 +12,22 @@ import lombok.Data;
 @Entity
 @Data
 public class Driver {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "driverIdGenerator")
-	@SequenceGenerator(name = "driverIdGenerator",allocationSize = 1,initialValue = 300)
+	@SequenceGenerator(name = "driverIdGenerator", allocationSize = 1, initialValue = 300)
 	private int id;
-	
+
 	private String driverName;
-	
+
 	private long driverPhoneNumber;
-	
+
 	// truckRegisterNumber
-	
+
 	private String truckRegisterNumber;
-	
+
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "carrier")
 	private Carrier carrier;
 
 }
