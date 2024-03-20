@@ -11,5 +11,8 @@ public class EstimatesDto {
 	
 	private double distance;
 	private long time;
+	
+	private double frieghtCost;
+	private int days;
 
 }

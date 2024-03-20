@@ -1,7 +1,9 @@
 package com.ff.logisticsmanangement.entity;
 
-import java.sql.Date;
-import java.sql.Time;
+
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -26,8 +28,8 @@ public class Unloading {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	@Temporal(TemporalType.DATE)
-	private Date unloadingDate;
+	private LocalDate unloadingDate;
 	@Temporal(TemporalType.TIME)
-	private Time unloadingTime;
+	private LocalTime unloadingTime;
 
 }

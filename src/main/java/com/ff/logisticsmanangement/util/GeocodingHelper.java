@@ -14,8 +14,9 @@ public class GeocodingHelper {
 		JSONObject loadingLocation;
 		try {
 			loadingLocation = geocodeAddress(address);
-			double lat = Double.parseDouble((String)loadingLocation.get("lat"));
-			double lon = Double.parseDouble((String)loadingLocation.get("lon"));
+
+			double lat = Double.parseDouble((String) loadingLocation.get("lat"));
+			double lon = Double.parseDouble((String) loadingLocation.get("lon"));
 
 			double coordinates[] = { lat, lon };
 			return coordinates;
@@ -28,7 +29,7 @@ public class GeocodingHelper {
 	}
 
 	private static JSONObject geocodeAddress(String address) throws ParseException {
-
+		System.out.println(address);
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "https://nominatim.openstreetmap.org/search?q=" + address + "&format=json";
 		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
@@ -36,8 +37,20 @@ public class GeocodingHelper {
 
 		JSONParser parser = new JSONParser();
 		JSONArray jsonArray = (JSONArray) parser.parse(responseBody);
-		JSONObject jsonObject = (JSONObject) jsonArray.get(0); // Assuming the first result is the correct one
-		return (JSONObject) jsonObject;
+		
+		if (jsonArray.size() > 0) {
+			JSONObject jsonObject = (JSONObject) jsonArray.get(0); // Assuming the first result is the correct one
+			return (JSONObject) jsonObject;
+		}
+		else {
+			String[] split = address.split(" ");
+			if(split.length == 1) {
+				throw new IndexOutOfBoundsException("Address not valid. Please try with correct credentials");
+			}
+			return geocodeAddress(split[1]);
+		}
+		
+
 	}
 
 }
