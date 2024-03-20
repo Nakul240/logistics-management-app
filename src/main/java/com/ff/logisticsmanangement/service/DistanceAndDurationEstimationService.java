@@ -1,7 +1,5 @@
 package com.ff.logisticsmanangement.service;
 
-import java.util.List;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -55,7 +53,9 @@ public class DistanceAndDurationEstimationService {
 		double distance = (double) pathObject.get("distance");
 		long time = (long) pathObject.get("time");
 
-		EstimatesDto estimates = new EstimatesDto(distance, time);
+		EstimatesDto estimates = new EstimatesDto();
+		estimates.setDistance(distance);
+		estimates.setTime(time);
 
 		return estimates;
 	}
