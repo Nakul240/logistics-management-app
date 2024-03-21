@@ -62,7 +62,7 @@ public class CarrierController {
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "404") })
 	@DeleteMapping("/{carrierId}")
-	public ResponseEntity updateCarrier(@PathVariable int carrierId) {
+	public ResponseEntity<?> deleteCarrier(@PathVariable int carrierId) {
 
 		return carrierService.deleteCarrier(carrierId);
 	}

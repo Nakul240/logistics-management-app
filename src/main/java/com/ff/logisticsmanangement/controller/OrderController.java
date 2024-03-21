@@ -3,6 +3,8 @@ package com.ff.logisticsmanangement.controller;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -54,5 +56,34 @@ public class OrderController {
 	public ResponseEntity<?> unloadOrder(@PathVariable int orderId, @RequestBody LoadAndUnLoadDto loadingUsers) {
 		return orderService.unloadOrder(orderId, loadingUsers);
 	}
+	
+	@Operation(description = "Delete the order", summary = "deleting the order")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
+	@DeleteMapping("/{orderId}")
+	public ResponseEntity<?> deleteOrder(@PathVariable int orderId){
+		return orderService.deleteOrderById(orderId);
+	}
+	
+	
+	@Operation(description = "Get all the order details", summary = "all the order details")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
+	@GetMapping("/all")
+	public ResponseEntity<?> getAllOrders(){
+		
+		return orderService.getAllOrders();
+		
+	}
+	
+	@Operation(description = "update the order details using order id", summary = "update the order details")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
+	@PutMapping("/{orderId}")
+	public ResponseEntity<?> updateOrder(@PathVariable int orderId, @RequestBody OrderDto orderDto){
+		
+		return orderService.updateOrder(orderId, orderDto);
+	}
+	
 
 }
