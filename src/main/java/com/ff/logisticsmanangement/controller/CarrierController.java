@@ -66,7 +66,7 @@ public class CarrierController {
 			@ApiResponse(content = @Content(), responseCode = "404") })
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@DeleteMapping("/{carrierId}")
-	public ResponseEntity updateCarrier(@PathVariable int carrierId) {
+	public ResponseEntity<?> deleteCarrier(@PathVariable int carrierId) {
 
 		return carrierService.deleteCarrier(carrierId);
 	}
