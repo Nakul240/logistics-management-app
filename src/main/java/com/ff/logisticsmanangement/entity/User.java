@@ -1,14 +1,6 @@
 package com.ff.logisticsmanangement.entity;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ff.logisticsmanangement.util.Role;
@@ -31,6 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Component
 @Getter
 @Setter
 @Data
@@ -38,14 +31,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
-public class User implements UserDetails {
+public class User  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user_id")
 	@SequenceGenerator(name = "user_id", initialValue = 1, allocationSize = 1, sequenceName = "user_sequence")
 	private int id;
 	private String userName;
 	@JsonIgnore
-	private String userPassword;
+	private String password;
 	private Long userPhoneNumber;
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Address address;
@@ -53,39 +46,6 @@ public class User implements UserDetails {
 	private Role userRole;
 	
 	
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority(userRole.name()));
-	}
-
-	@Override
-	public String getPassword() {
-		return userPassword;
-	}
-
-	@Override
-	public String getUsername() {
-		return userName;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+	
 
 }

@@ -1,5 +1,6 @@
 package com.ff.logisticsmanangement.util;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.ff.logisticsmanangement.dto.OrderDto;
@@ -13,8 +14,8 @@ import lombok.Builder;
 @Builder
 
 public class RequestMapper {
-	public User requestUser(UserDto user) {
-		return User.builder().userName(user.getUserName()).userPassword(user.getUserPassword())
+	public User requestUser(UserDto user,PasswordEncoder passwordEncoder) {
+		return User.builder().userName(user.getUserName()).password(user.getUserPassword())
 				.userPhoneNumber(user.getUserPhoneNumber()).address(user.getAddress()).userRole(user.getUserRole())
 				.build();
 	}

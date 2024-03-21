@@ -32,7 +32,7 @@ public class TruckController {
 	@Operation(description = "A truck of Specific Carrier company is Added to the DB", summary ="Add a truck")
 	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Created"),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PostMapping
 	public ResponseEntity<ResponseStructure<Truck>> addTruck(@RequestBody Truck truck) {
 		return service.addTruck(truck);
@@ -41,6 +41,7 @@ public class TruckController {
 	@Operation(description = "Specified truck id info updated to DB", summary ="Update truck info")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PutMapping("/{truckId}")
 	public ResponseEntity<ResponseStructure<Truck>> updateTruck(@PathVariable int truckId, @RequestBody Truck truck) {
 		return service.updateTruck(truckId, truck);
@@ -49,6 +50,7 @@ public class TruckController {
 	@Operation(description = "Specified truck id deleted from DB", summary ="Delete Truck")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@DeleteMapping("/{truckId}")
 	public ResponseEntity<Truck> deleteTruck(@PathVariable int truckId) {
 		return service.deleteTruck(truckId);
@@ -57,6 +59,7 @@ public class TruckController {
 	@Operation(description = "Trucks of specified Carried id is retrieved from DB", summary ="Get all Trucks")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@GetMapping("/{carrierId}")
 	public ResponseEntity<ResponseStructure<GetAllTrucksDto>> getAllTruckByCarrierId(@PathVariable int carrierId) {
 		return service.getAllTruckByCarrierId(carrierId);
