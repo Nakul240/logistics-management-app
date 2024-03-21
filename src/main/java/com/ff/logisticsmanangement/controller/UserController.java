@@ -19,36 +19,56 @@ import com.ff.logisticsmanangement.dto.UserDto;
 import com.ff.logisticsmanangement.entity.User;
 import com.ff.logisticsmanangement.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
-@RequestMapping("/logistics/user")
+@RequestMapping("/logistics/users")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 
-	@PostMapping("/saveUser")
+	@Operation(description = "User will be saved in the database", summary = "To Create User info")
+	@ApiResponses(value = { @ApiResponse(description = "Created", responseCode = "201"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
+	@PostMapping
 	public ResponseEntity<ResponseStructure<User>> saveUser(@RequestBody UserDto user) {
 		System.out.println(user);
 		return userService.saveUser(user);
 	}
 
+	@Operation(description = "Get user based on the given Id ", summary = "To get user")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PreAuthorize("hasAuthority('ADMIN')")
-	@GetMapping("/getUser/{userId}")
+	@GetMapping("/{userId}")
 	public ResponseEntity<ResponseStructure<User>> getUserById(@PathVariable int userId) {
 		return userService.getUserById(userId);
 	}
 
-	@GetMapping("/getAlUser")
+	@Operation(description = "Get all users from database", summary = "To get all users")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
+	@GetMapping
 	public ResponseEntity<ResponseStructure<List<User>>> getAllUsers() {
 		return userService.getAllUsers();
 	}
 
-	@PutMapping("/updateUser/{userId}")
+	@Operation(description = "User Details will be updated into the database", summary = "To update user info")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
+	@PutMapping("/{userId}")
 	public ResponseEntity<ResponseStructure<User>> updateUser(@PathVariable int userId, @RequestBody User user) {
 		return userService.updateUser(userId, user);
 	}
 
-	@DeleteMapping("/deleteUser/{userId}")
+	@Operation(description = "User will be deleted from the database", summary = "To Delete user Info")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "404") })
+	@DeleteMapping("/{userId}")
 	public ResponseEntity deleteUser(@PathVariable int userId) {
 		return userService.deleteUser(userId);
 	}
