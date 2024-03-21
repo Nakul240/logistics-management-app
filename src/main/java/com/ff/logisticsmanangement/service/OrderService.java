@@ -67,7 +67,7 @@ public class OrderService {
 			System.err.println(days);
 
 			LocalDate loadingDate = loading.getLoadingDate();
-			if (loadingDate.isAfter(LocalDate.now())) {
+			if (loadingDate.isEqual(LocalDate.now())||loadingDate.isAfter(LocalDate.now())) {
 
 				unloading.setUnloadingDate(loadingDate.plusDays(days));
 				loading.setLoadingTime(LocalTime.of(12, 00, 00));
