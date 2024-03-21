@@ -71,8 +71,8 @@ public class UserService {
 		Optional<User> recievedUser = userRepository.findById(userId);
 		if (recievedUser.isPresent()) {
 			User users = recievedUser.get();
-			if (user.getUserName() != null) {
-				users.setUserName(user.getUserName());
+			if (user.getUsername() != null) {
+				users.setUserName(user.getUsername());
 			}
 			if (user.getUserPassword() != null) {
 				users.setUserPassword(user.getUserPassword());
