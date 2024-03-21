@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,10 +25,13 @@ public class UserService {
 
 	@Autowired
 	private RequestMapper requestmapper;
-
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	public ResponseEntity<ResponseStructure<User>> saveUser(UserDto user) {
 
-		User users = requestmapper.requestUser(user);
+		User users = requestmapper.requestUser(user,passwordEncoder);
 		User savedUser = userRepository.save(users);
 
 		ResponseStructure<User> responseStructure = new ResponseStructure<User>();
@@ -71,11 +75,11 @@ public class UserService {
 		Optional<User> recievedUser = userRepository.findById(userId);
 		if (recievedUser.isPresent()) {
 			User users = recievedUser.get();
-			if (user.getUsername() != null) {
-				users.setUserName(user.getUsername());
+			if (user.getUserName() != null) {
+				users.setUserName(user.getUserName());
 			}
-			if (user.getUserPassword() != null) {
-				users.setUserPassword(user.getUserPassword());
+			if (user.getPassword() != null) {
+				users.setPassword(user.getPassword());
 			}
 			if (user.getUserPhoneNumber() != null) {
 				users.setUserPhoneNumber(user.getUserPhoneNumber());
