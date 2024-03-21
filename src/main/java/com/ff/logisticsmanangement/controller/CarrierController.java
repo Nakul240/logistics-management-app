@@ -17,39 +17,61 @@ import com.ff.logisticsmanangement.dto.ResponseStructure;
 import com.ff.logisticsmanangement.entity.Carrier;
 import com.ff.logisticsmanangement.service.CarrierService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/logistics/carriers")
 public class CarrierController {
 	@Autowired
 	private CarrierService carrierService;
 
-//save the carrier details
+	// save the carrier details
+	@Operation(description = "Carrier details will be saved in the database", summary = "To Create Carrier info")
+	@ApiResponses(value = { @ApiResponse(description = "Created", responseCode = "201"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PostMapping
 	public ResponseEntity<ResponseStructure<Carrier>> saveCarrier(@RequestBody Carrier carrier) {
 		return carrierService.createCarrier(carrier);
 	}
 
-//get the carrier details by id
+	// get the carrier details by id
+	@Operation(description = "Carrier details will be retrived from the database", summary = "To get  Carrier info")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
 	@GetMapping("/{carrierId}")
 	public ResponseEntity<ResponseStructure<Carrier>> getCarrierById(@PathVariable int carrierId) {
 		return carrierService.getCarrier(carrierId);
 	}
 
-//update the carrier details
+	// update the carrier details
+	@Operation(description = "Carrier Details will be updated into the database", summary = "To Update Carrier info")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PutMapping("/{carrierId}")
 	public ResponseEntity<ResponseStructure<Carrier>> updateCarrier(@PathVariable int carrierId,
 			@RequestBody Carrier carrier) {
 		return carrierService.updateCarrier(carrierId, carrier);
 	}
 
-// delete the carrier details
+	// delete the carrier details
+
+	@Operation(description = "Carrier will be deleted from the database", summary = "To Delete Carrier Info")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "404") })
 	@DeleteMapping("/{carrierId}")
 	public ResponseEntity updateCarrier(@PathVariable int carrierId) {
 
 		return carrierService.deleteCarrier(carrierId);
 	}
 
-//get all carrier Details
+	// get all carrier Details
+
+	@Operation(description = " All Carrier  details will be retrived from the database", summary = "To get all  Carrier info")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
 	@GetMapping
 	public ResponseEntity<ResponseStructure<List<Carrier>>> getAllCarrier() {
 		return carrierService.getAllCarrier();

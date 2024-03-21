@@ -50,6 +50,7 @@ public class OrderService {
 		Optional<Carrier> getCarrier = carrierRepository.findById(carrierId);
 		if (getCarrier.isPresent()) {
 			Carrier carrier = getCarrier.get();
+
 			orderDto.setCarrier(carrier);
 			Order order = requestMapper.getOrder(orderDto);
 			order.setOrderStatus(OrderStatus.Pending);
