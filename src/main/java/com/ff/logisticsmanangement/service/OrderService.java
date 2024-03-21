@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import com.ff.logisticsmanangement.dao.CarrierRepository;
 import com.ff.logisticsmanangement.dao.OrderRepository;
@@ -50,10 +52,9 @@ public class OrderService {
 		Optional<Carrier> getCarrier = carrierRepository.findById(carrierId);
 		if (getCarrier.isPresent()) {
 			Carrier carrier = getCarrier.get();
-
-			orderDto.setCarrier(carrier);
 			Order order = requestMapper.getOrder(orderDto);
 			order.setOrderStatus(OrderStatus.Pending);
+			order.setCarrier(carrier);
 
 			Loading loading = order.getLoading();
 			Unloading unloading = order.getUnloading();
@@ -108,7 +109,19 @@ public class OrderService {
 		return estimates;
 	}
 
-	public ResponseEntity<?> loadOrder(int orderId, LoadAndUnLoadDto loadingUsers) {
+	public ResponseEntity<?> loadOrder(int orderId, LoadAndUnLoadDto loadingUsers, BindingResult result) {
+		
+		if (result.hasErrors()) {
+
+			String message = "";
+
+			for (FieldError error : result.getFieldErrors()) {
+
+				message += error.getDefaultMessage() + " ,";
+
+			}
+			throw new IdNotFoundException(message);
+		}
 
 		Order order = orderRepository.findById(orderId)
 				.orElseThrow(() -> new IdNotFoundException("Not Valid OrderId!"));
@@ -129,7 +142,19 @@ public class OrderService {
 		return new ResponseEntity<ResponseStructure<String>>(rs, HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> unloadOrder(int orderId, LoadAndUnLoadDto loadingUsers) {
+	public ResponseEntity<?> unloadOrder(int orderId, LoadAndUnLoadDto loadingUsers, BindingResult result) {
+		
+		if (result.hasErrors()) {
+
+			String message = "";
+
+			for (FieldError error : result.getFieldErrors()) {
+
+				message += error.getDefaultMessage() + " ,";
+
+			}
+			throw new IdNotFoundException(message);
+		}
 		Order order = orderRepository.findById(orderId)
 				.orElseThrow(() -> new IdNotFoundException("Not Valid OrderId!"));
 
@@ -169,6 +194,7 @@ public class OrderService {
 		return new ResponseEntity<ResponseStructure<List<Order>>>(rs, HttpStatus.OK);
 	}
 
+	
 	public ResponseEntity<ResponseStructure<Order>> updateOrder(int orderId, OrderDto orderDto) {
 		Order order = orderRepository.findById(orderId)
 				.orElseThrow(() -> new IdNotFoundException("Not Valid OrderId!"));
@@ -189,8 +215,11 @@ public class OrderService {
 			order.setCargo(orderDto.getCargo());
 		}
 		
-		if(orderDto.getCarrier()!=null) {
-			order.setCarrier(orderDto.getCarrier());
+		if(orderDto.getCarrierId()!=0) {
+			
+			Carrier carrier = carrierRepository.findById(orderDto.getCarrierId()).orElseThrow(()-> new IdNotFoundException("Carrier Id Not Valid!"));
+			order.setCarrier(carrier);
+			
 		}
 			
 		order  = orderRepository.save(order);

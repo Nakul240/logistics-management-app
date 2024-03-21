@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import com.ff.logisticsmanangement.dao.UserRepository;
 import com.ff.logisticsmanangement.dto.ResponseStructure;
@@ -25,13 +26,25 @@ public class UserService {
 
 	@Autowired
 	private RequestMapper requestmapper;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-	public ResponseEntity<ResponseStructure<User>> saveUser(UserDto user) {
 
-		User users = requestmapper.requestUser(user,passwordEncoder);
+	public ResponseEntity<ResponseStructure<User>> saveUser(UserDto user, BindingResult result) {
+
+		if (result.hasErrors()) {
+
+			String message = "";
+
+			for (FieldError error : result.getFieldErrors()) {
+
+				message += error.getDefaultMessage() + " ,";
+
+			}
+			throw new IdNotFoundException(message);
+		}
+
+		User users = requestmapper.requestUser(user, passwordEncoder);
 		User savedUser = userRepository.save(users);
 
 		ResponseStructure<User> responseStructure = new ResponseStructure<User>();
@@ -71,7 +84,20 @@ public class UserService {
 		return new ResponseEntity<ResponseStructure<List<User>>>(responseStructure, HttpStatus.OK);
 	}
 
-	public ResponseEntity<ResponseStructure<User>> updateUser(int userId, User user) {
+	public ResponseEntity<ResponseStructure<User>> updateUser(int userId, User user, BindingResult result) {
+		
+		if (result.hasErrors()) {
+
+			String message = "";
+
+			for (FieldError error : result.getFieldErrors()) {
+
+				message += error.getDefaultMessage() + " ,";
+
+			}
+			throw new IdNotFoundException(message);
+		}
+
 		Optional<User> recievedUser = userRepository.findById(userId);
 		if (recievedUser.isPresent()) {
 			User users = recievedUser.get();

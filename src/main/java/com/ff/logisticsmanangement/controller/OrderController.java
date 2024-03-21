@@ -3,6 +3,7 @@ package com.ff.logisticsmanangement.controller;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,10 +34,10 @@ public class OrderController {
 	@Operation(description = "Order details will be saved in the database", summary = "To Create Order info")
 	@ApiResponses(value = { @ApiResponse(description = "Created", responseCode = "201"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
-	@PostMapping("/{carrierId}")
-	public ResponseEntity<ResponseStructure<Order>> saveOrder(@PathVariable int carrierId, @RequestBody OrderDto order)
+	@PostMapping("/")
+	public ResponseEntity<ResponseStructure<Order>> saveOrder(@RequestBody OrderDto order)
 			throws ParseException {
-		return orderService.saveOrder(carrierId, order);
+		return orderService.saveOrder(order.getCarrierId(), order);
 	}
 
 	// update the loading users
@@ -44,8 +45,8 @@ public class OrderController {
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PutMapping("/load/{orderId}")
-	public ResponseEntity<?> loadOrder(@PathVariable int orderId, @RequestBody LoadAndUnLoadDto loadingUsers) {
-		return orderService.loadOrder(orderId, loadingUsers);
+	public ResponseEntity<?> loadOrder( @RequestBody LoadAndUnLoadDto loadingUsers, BindingResult result, @PathVariable int orderId) {
+		return orderService.loadOrder(orderId, loadingUsers, result);
 	}
 
 	// update the unloading users
@@ -53,8 +54,8 @@ public class OrderController {
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PutMapping("/unload/{orderId}")
-	public ResponseEntity<?> unloadOrder(@PathVariable int orderId, @RequestBody LoadAndUnLoadDto loadingUsers) {
-		return orderService.unloadOrder(orderId, loadingUsers);
+	public ResponseEntity<?> unloadOrder(@RequestBody LoadAndUnLoadDto loadingUsers, BindingResult result, @PathVariable int orderId) {
+		return orderService.unloadOrder(orderId, loadingUsers, result);
 	}
 	
 	@Operation(description = "Delete the order", summary = "deleting the order")
