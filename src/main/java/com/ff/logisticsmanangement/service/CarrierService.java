@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import com.ff.logisticsmanangement.dao.CarrierRepository;
 import com.ff.logisticsmanangement.dto.ResponseStructure;
@@ -20,7 +22,20 @@ public class CarrierService {
 
 	// save the carrier details
 
-	public ResponseEntity<ResponseStructure<Carrier>> createCarrier(Carrier carrier) {
+	public ResponseEntity<ResponseStructure<Carrier>> createCarrier(Carrier carrier, BindingResult result) {
+		
+		if (result.hasErrors()) {
+
+			String message = "";
+
+			for (FieldError error : result.getFieldErrors()) {
+
+				message += error.getDefaultMessage() + " ,";
+
+			}
+			throw new IdNotFoundException(message);
+		}
+		
 		Carrier savedCarrier = carrierRespository.save(carrier);
 		ResponseStructure<Carrier> response = new ResponseStructure<Carrier>();
 		response.setMessage("success");

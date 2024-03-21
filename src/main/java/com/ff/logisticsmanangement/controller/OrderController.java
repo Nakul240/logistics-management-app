@@ -3,7 +3,11 @@ package com.ff.logisticsmanangement.controller;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.validation.BindingResult;
+
 import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,8 +41,9 @@ public class OrderController {
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER')")
 	@PostMapping("/{carrierId}")
 	public ResponseEntity<ResponseStructure<Order>> saveOrder(@PathVariable int carrierId, @RequestBody OrderDto order)
+
 			throws ParseException {
-		return orderService.saveOrder(carrierId, order);
+		return orderService.saveOrder(order.getCarrierId(), order);
 	}
 
 	// update the loading users
@@ -47,8 +52,9 @@ public class OrderController {
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER')")
 	@PutMapping("/load/{orderId}")
-	public ResponseEntity<?> loadOrder(@PathVariable int orderId, @RequestBody LoadAndUnLoadDto loadingUsers) {
-		return orderService.loadOrder(orderId, loadingUsers);
+	public ResponseEntity<?> loadOrder(@RequestBody LoadAndUnLoadDto loadingUsers, BindingResult result,
+			@PathVariable int orderId) {
+		return orderService.loadOrder(orderId, loadingUsers, result);
 	}
 
 	// update the unloading users
@@ -57,40 +63,39 @@ public class OrderController {
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER')")
 	@PutMapping("/unload/{orderId}")
-	public ResponseEntity<?> unloadOrder(@PathVariable int orderId, @RequestBody LoadAndUnLoadDto loadingUsers) {
-		return orderService.unloadOrder(orderId, loadingUsers);
+	public ResponseEntity<?> unloadOrder(@RequestBody LoadAndUnLoadDto loadingUsers, BindingResult result,
+			@PathVariable int orderId) {
+		return orderService.unloadOrder(orderId, loadingUsers, result);
 	}
-	
+
 	@Operation(description = "Delete the order", summary = "deleting the order")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@DeleteMapping("/{orderId}")
-	public ResponseEntity<?> deleteOrder(@PathVariable int orderId){
+	public ResponseEntity<?> deleteOrder(@PathVariable int orderId) {
 		return orderService.deleteOrderById(orderId);
 	}
-	
-	
+
 	@Operation(description = "Get all the order details", summary = "all the order details")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllOrders(){
-		
+	public ResponseEntity<?> getAllOrders() {
+
 		return orderService.getAllOrders();
-		
+
 	}
-	
+
 	@Operation(description = "update the order details using order id", summary = "update the order details")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER')")
 	@PutMapping("/{orderId}")
-	public ResponseEntity<?> updateOrder(@PathVariable int orderId, @RequestBody OrderDto orderDto){
-		
+	public ResponseEntity<?> updateOrder(@PathVariable int orderId, @RequestBody OrderDto orderDto) {
+
 		return orderService.updateOrder(orderId, orderDto);
 	}
-	
 
 }

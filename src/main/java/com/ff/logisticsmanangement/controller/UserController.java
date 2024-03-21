@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/logistics/users")
@@ -35,9 +37,8 @@ public class UserController {
 	@ApiResponses(value = { @ApiResponse(description = "Created", responseCode = "201"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PostMapping
-	public ResponseEntity<ResponseStructure<User>> saveUser(@RequestBody UserDto user) {
-		System.out.println(user);
-		return userService.saveUser(user);
+	public ResponseEntity<ResponseStructure<User>> saveUser(@Valid @RequestBody UserDto user, BindingResult result) {
+		return userService.saveUser(user, result);
 	}
 
 	@Operation(description = "Get user based on the given Id ", summary = "To get user")
@@ -63,8 +64,8 @@ public class UserController {
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER')")
 	@PutMapping("/{userId}")
-	public ResponseEntity<ResponseStructure<User>> updateUser(@PathVariable int userId, @RequestBody User user) {
-		return userService.updateUser(userId, user);
+	public ResponseEntity<ResponseStructure<User>> updateUser(@Valid @RequestBody User user, BindingResult result,  @PathVariable int userId ) {
+		return userService.updateUser(userId, user, result);
 	}
 
 	@Operation(description = "User will be deleted from the database", summary = "To Delete user Info")

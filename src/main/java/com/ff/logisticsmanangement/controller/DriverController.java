@@ -2,6 +2,7 @@ package com.ff.logisticsmanangement.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/logistics/drivers")
@@ -36,9 +38,9 @@ public class DriverController {
 	@ApiResponses(value = {@ApiResponse(description = "Created", responseCode = "201", content = @Content)})
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PostMapping("/")
-	public ResponseEntity<ResponseStructure<Driver>> saveDriver(@RequestBody DriverDto driverDto){
+	public ResponseEntity<ResponseStructure<Driver>> saveDriver(@Valid @RequestBody DriverDto driverDto, BindingResult result){
 		
-		return driverService.saveDriver(driverDto);
+		return driverService.saveDriver(driverDto, result);
 		
 	}
 	
@@ -56,9 +58,9 @@ public class DriverController {
 	@ApiResponses(value = {@ApiResponse(description = "OK", responseCode = "200", content = @Content)})
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'DRIVER')")
 	@PutMapping("/{driverId}")
-	public ResponseEntity<ResponseStructure<String>> updateDriver(@PathVariable int driverId, @RequestBody DriverDto driverDto){
+	public ResponseEntity<ResponseStructure<String>> updateDriver(@Valid @RequestBody DriverDto driverDto, BindingResult result, @PathVariable int driverId){
 		
-		return driverService.updateDriver(driverId, driverDto);
+		return driverService.updateDriver(driverId, driverDto, result);
 		
 	}
 	

@@ -3,6 +3,7 @@ package com.ff.logisticsmanangement.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/logistics/trucks")
@@ -34,8 +36,8 @@ public class TruckController {
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PostMapping
-	public ResponseEntity<ResponseStructure<Truck>> addTruck(@RequestBody Truck truck) {
-		return service.addTruck(truck);
+	public ResponseEntity<ResponseStructure<Truck>> addTruck(@Valid @RequestBody Truck truck, BindingResult result) {
+		return service.addTruck(truck, result);
 	}
 
 	@Operation(description = "Specified truck id info updated to DB", summary ="Update truck info")
@@ -43,8 +45,8 @@ public class TruckController {
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PutMapping("/{truckId}")
-	public ResponseEntity<ResponseStructure<Truck>> updateTruck(@PathVariable int truckId, @RequestBody Truck truck) {
-		return service.updateTruck(truckId, truck);
+	public ResponseEntity<ResponseStructure<Truck>> updateTruck( @RequestBody Truck truck,BindingResult result,@PathVariable int truckId) {
+		return service.updateTruck(truckId, truck, result);
 	}
 
 	@Operation(description = "Specified truck id deleted from DB", summary ="Delete Truck")

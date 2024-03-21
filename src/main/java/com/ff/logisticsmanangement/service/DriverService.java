@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import com.ff.logisticsmanangement.dao.CarrierRepository;
 import com.ff.logisticsmanangement.dao.DriverRepository;
@@ -22,7 +24,19 @@ public class DriverService {
 	@Autowired
 	private DriverRepository driverRepository;
 
-	public ResponseEntity<ResponseStructure<Driver>> saveDriver(DriverDto driverDto) {
+	public ResponseEntity<ResponseStructure<Driver>> saveDriver(DriverDto driverDto, BindingResult result) {
+		
+		if (result.hasErrors()) {
+
+			String message = "";
+
+			for (FieldError error : result.getFieldErrors()) {
+
+				message += error.getDefaultMessage() + " ,";
+
+			}
+			throw new IdNotFoundException(message);
+		}
 
 		Carrier carrier = carrierRepository.findById(driverDto.getCarrierId()).orElseThrow(()-> new IdNotFoundException("Carrier not found"));
 
@@ -56,7 +70,19 @@ public class DriverService {
 	}
 	
 	
-	public ResponseEntity<ResponseStructure<String>> updateDriver(int id, DriverDto driverDto){
+	public ResponseEntity<ResponseStructure<String>> updateDriver(int id, DriverDto driverDto, BindingResult result){
+		
+		if (result.hasErrors()) {
+
+			String message = "";
+
+			for (FieldError error : result.getFieldErrors()) {
+
+				message += error.getDefaultMessage() + " ,";
+
+			}
+			throw new IdNotFoundException(message);
+		}
 		
 		Driver driver = driverRepository.findById(id).orElseThrow(()-> new IdNotFoundException("Driver not found with "+ id));
 		

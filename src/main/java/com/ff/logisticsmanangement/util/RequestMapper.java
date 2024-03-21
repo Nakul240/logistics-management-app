@@ -22,7 +22,7 @@ public class RequestMapper {
 
 	public Order getOrder(OrderDto order) {
 		Order receivedOrder = Order.builder().additionalInfo(order.getAdditionalInfo()).cargo(order.getCargo())
-				.carrier(order.getCarrier()).loading(order.getLoading()).unloading(order.getUnloading()).build();
+					.loading(order.getLoading()).unloading(order.getUnloading()).build();
 		return receivedOrder;
 	}
 

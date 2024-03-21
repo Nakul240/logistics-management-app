@@ -10,6 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Entity
@@ -20,10 +24,15 @@ public class Carrier {
 	@SequenceGenerator(name = "carrier_seq", sequenceName = "carrier_seq", allocationSize = 1, initialValue = 100)
 	private int id;
 
+	@NotBlank(message = "carrier company name cannot be blank")
 	private String carrierCompanyName;
 
+	@NotNull
+	@Min(value = 1000000000L, message = "Phone number must be at least 10 digits long")
 	private Long carrierContact;
 
+	@Email
+	@NotNull
 	private String carrierEmail;
 
 	@OneToMany(mappedBy = "carrier")
