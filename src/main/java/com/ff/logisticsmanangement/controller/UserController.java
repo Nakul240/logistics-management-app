@@ -19,34 +19,34 @@ import com.ff.logisticsmanangement.entity.User;
 import com.ff.logisticsmanangement.service.UserService;
 
 @RestController
-@RequestMapping("/logistics/user")
+@RequestMapping("/logistics/users")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 
-	@PostMapping("/saveUser")
+	@PostMapping
 	public ResponseEntity<ResponseStructure<User>> saveUser(@RequestBody UserDto user) {
 		System.out.println(user);
 		return userService.saveUser(user);
 	}
 
-	@GetMapping("/getUser/{userId}")
+	@GetMapping("/{userId}")
 	public ResponseEntity<ResponseStructure<User>> getUserById(@PathVariable int userId) {
 		return userService.getUserById(userId);
 	}
 
-	@GetMapping("/getAlUser")
+	@GetMapping
 	public ResponseEntity<ResponseStructure<List<User>>> getAllUsers() {
 		return userService.getAllUsers();
 	}
 
-	@PutMapping("/updateUser/{userId}")
+	@PutMapping("/{userId}")
 	public ResponseEntity<ResponseStructure<User>> updateUser(@PathVariable int userId, @RequestBody User user) {
 		return userService.updateUser(userId, user);
 	}
 
-	@DeleteMapping("/deleteUser/{userId}")
+	@DeleteMapping("/{userId}")
 	public ResponseEntity deleteUser(@PathVariable int userId) {
 		return userService.deleteUser(userId);
 	}
