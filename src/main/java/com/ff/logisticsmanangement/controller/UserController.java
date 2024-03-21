@@ -52,6 +52,7 @@ public class UserController {
 	@Operation(description = "Get all users from database", summary = "To get all users")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@GetMapping
 	public ResponseEntity<ResponseStructure<List<User>>> getAllUsers() {
 		return userService.getAllUsers();
@@ -60,6 +61,7 @@ public class UserController {
 	@Operation(description = "User Details will be updated into the database", summary = "To update user info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
+	@PreAuthorize("hasAnyAuthority('ADMIN','USER')")
 	@PutMapping("/{userId}")
 	public ResponseEntity<ResponseStructure<User>> updateUser(@PathVariable int userId, @RequestBody User user) {
 		return userService.updateUser(userId, user);
@@ -68,8 +70,9 @@ public class UserController {
 	@Operation(description = "User will be deleted from the database", summary = "To Delete user Info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "404") })
+	@PreAuthorize("hasAnyAuthority('ADMIN','USER')")
 	@DeleteMapping("/{userId}")
-	public ResponseEntity deleteUser(@PathVariable int userId) {
+	public ResponseEntity<?> deleteUser(@PathVariable int userId) {
 		return userService.deleteUser(userId);
 	}
 
