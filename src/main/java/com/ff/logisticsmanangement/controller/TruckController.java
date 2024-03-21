@@ -19,7 +19,7 @@ import com.ff.logisticsmanangement.service.TruckService;
 
 
 @RestController
-@RequestMapping("/logistics/truck")
+@RequestMapping("/logistics/trucks")
 public class TruckController {
 
 	@Autowired
