@@ -149,4 +149,58 @@ public class OrderService {
 		return new ResponseEntity<ResponseStructure<String>>(rs, HttpStatus.OK);
 	}
 
+	public ResponseEntity<?> deleteOrderById(int orderId) {
+		Order order = orderRepository.findById(orderId)
+				.orElseThrow(() -> new IdNotFoundException("Not Valid OrderId!"));
+		orderRepository.delete(order);
+		
+		return new ResponseEntity<String>("Deleted", HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> getAllOrders() {
+		
+		List<Order> orders = orderRepository.findAll();
+		
+		ResponseStructure<List<Order>> rs = new ResponseStructure<>();
+		rs.setData(orders);
+		rs.setMessage("Success");
+		rs.setStatusCode(HttpStatus.OK.value());
+		
+		return new ResponseEntity<ResponseStructure<List<Order>>>(rs, HttpStatus.OK);
+	}
+
+	public ResponseEntity<ResponseStructure<Order>> updateOrder(int orderId, OrderDto orderDto) {
+		Order order = orderRepository.findById(orderId)
+				.orElseThrow(() -> new IdNotFoundException("Not Valid OrderId!"));
+		
+		if(orderDto.getLoading()!=null) {
+			order.setLoading(orderDto.getLoading());
+		}
+		
+		if(orderDto.getUnloading()!=null) {
+			order.setUnloading(orderDto.getUnloading());
+		}
+		
+		if(orderDto.getAdditionalInfo()!=null) {
+			order.setAdditionalInfo(orderDto.getAdditionalInfo());
+		}
+		
+		if(orderDto.getCargo()!=null) {
+			order.setCargo(orderDto.getCargo());
+		}
+		
+		if(orderDto.getCarrier()!=null) {
+			order.setCarrier(orderDto.getCarrier());
+		}
+			
+		order  = orderRepository.save(order);
+		ResponseStructure<Order> rs = new ResponseStructure<>();
+		
+		rs.setData(order);
+		rs.setMessage("Updated");
+		rs.setStatusCode(HttpStatus.OK.value());
+		
+		return new ResponseEntity<ResponseStructure<Order>>(rs, HttpStatus.OK);
+	}
+
 }
