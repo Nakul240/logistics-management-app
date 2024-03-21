@@ -52,8 +52,6 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Role userRole;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

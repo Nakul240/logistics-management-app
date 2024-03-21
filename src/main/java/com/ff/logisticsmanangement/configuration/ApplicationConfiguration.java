@@ -18,13 +18,8 @@ import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 @EnableMethodSecurity
-public class AppSecurityConfiguration {
-	
-	@Bean
-	public PasswordEncoder encoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
+public class ApplicationConfiguration {
+		
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable();
