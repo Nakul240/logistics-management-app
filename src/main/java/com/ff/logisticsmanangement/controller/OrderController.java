@@ -16,27 +16,42 @@ import com.ff.logisticsmanangement.dto.ResponseStructure;
 import com.ff.logisticsmanangement.entity.Order;
 import com.ff.logisticsmanangement.service.OrderService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/logistics/orders")
 public class OrderController {
 	@Autowired
 	private OrderService orderService;
 
-	//save the order
+	// save the order
+	@Operation(description = "Order details will be saved in the database", summary = "To Create Order info")
+	@ApiResponses(value = { @ApiResponse(description = "Created", responseCode = "201"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PostMapping("/{carrierId}")
-	public ResponseEntity<ResponseStructure<Order>> saveOrder(@PathVariable int carrierId,
-			@RequestBody OrderDto order) throws ParseException {
+	public ResponseEntity<ResponseStructure<Order>> saveOrder(@PathVariable int carrierId, @RequestBody OrderDto order)
+			throws ParseException {
 		return orderService.saveOrder(carrierId, order);
 	}
-	
-	
+
+	// update the loading users
+	@Operation(description = "Update the loadingUsers in the database", summary = "To Update loadingUsers info")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PutMapping("/load/{orderId}")
-	public ResponseEntity<?> loadOrder(@PathVariable int orderId, @RequestBody LoadAndUnLoadDto loadingUsers){
+	public ResponseEntity<?> loadOrder(@PathVariable int orderId, @RequestBody LoadAndUnLoadDto loadingUsers) {
 		return orderService.loadOrder(orderId, loadingUsers);
 	}
-	
+
+	// update the unloading users
+	@Operation(description = "Update the unloadingUsers in the database", summary = "To Update unloadingUsers info")
+	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PutMapping("/unload/{orderId}")
-	public ResponseEntity<?> unloadOrder(@PathVariable int orderId, @RequestBody LoadAndUnLoadDto loadingUsers){
+	public ResponseEntity<?> unloadOrder(@PathVariable int orderId, @RequestBody LoadAndUnLoadDto loadingUsers) {
 		return orderService.unloadOrder(orderId, loadingUsers);
 	}
 
