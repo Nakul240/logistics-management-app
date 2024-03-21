@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,7 @@ public class CarrierController {
 	@Operation(description = "Carrier details will be saved in the database", summary = "To Create Carrier info")
 	@ApiResponses(value = { @ApiResponse(description = "Created", responseCode = "201"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PostMapping
 	public ResponseEntity<ResponseStructure<Carrier>> saveCarrier(@Valid @RequestBody Carrier carrier, BindingResult result) {
 		return carrierService.createCarrier(carrier, result);
@@ -52,6 +54,7 @@ public class CarrierController {
 	@Operation(description = "Carrier Details will be updated into the database", summary = "To Update Carrier info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PutMapping("/{carrierId}")
 	public ResponseEntity<ResponseStructure<Carrier>> updateCarrier(@PathVariable int carrierId,
 			@RequestBody Carrier carrier) {
@@ -63,6 +66,7 @@ public class CarrierController {
 	@Operation(description = "Carrier will be deleted from the database", summary = "To Delete Carrier Info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "404") })
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@DeleteMapping("/{carrierId}")
 	public ResponseEntity<?> deleteCarrier(@PathVariable int carrierId) {
 
