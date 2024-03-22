@@ -14,6 +14,7 @@ import org.springframework.validation.FieldError;
 import com.ff.logisticsmanangement.dao.UserRepository;
 import com.ff.logisticsmanangement.dto.ResponseStructure;
 import com.ff.logisticsmanangement.dto.UserDto;
+import com.ff.logisticsmanangement.dto.UserUpdateDto;
 import com.ff.logisticsmanangement.entity.User;
 import com.ff.logisticsmanangement.exception.IdNotFoundException;
 import com.ff.logisticsmanangement.util.RequestMapper;
@@ -84,8 +85,8 @@ public class UserService {
 		return new ResponseEntity<ResponseStructure<List<User>>>(responseStructure, HttpStatus.OK);
 	}
 
-	public ResponseEntity<ResponseStructure<User>> updateUser(int userId, User user, BindingResult result) {
-		
+	public ResponseEntity<ResponseStructure<User>> updateUser( UserUpdateDto user, int userId,BindingResult result) {
+
 		if (result.hasErrors()) {
 
 			String message = "";
@@ -104,8 +105,8 @@ public class UserService {
 			if (user.getUserName() != null) {
 				users.setUserName(user.getUserName());
 			}
-			if (user.getPassword() != null) {
-				users.setPassword(user.getPassword());
+			if (user.getUserPassword() != null) {
+				users.setPassword(user.getUserPassword());
 			}
 			if (user.getUserPhoneNumber() != null) {
 				users.setUserPhoneNumber(user.getUserPhoneNumber());

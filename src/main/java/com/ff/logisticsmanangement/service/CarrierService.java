@@ -23,7 +23,7 @@ public class CarrierService {
 	// save the carrier details
 
 	public ResponseEntity<ResponseStructure<Carrier>> createCarrier(Carrier carrier, BindingResult result) {
-		
+
 		if (result.hasErrors()) {
 
 			String message = "";
@@ -35,7 +35,7 @@ public class CarrierService {
 			}
 			throw new IdNotFoundException(message);
 		}
-		
+
 		Carrier savedCarrier = carrierRespository.save(carrier);
 		ResponseStructure<Carrier> response = new ResponseStructure<Carrier>();
 		response.setMessage("success");
@@ -68,13 +68,13 @@ public class CarrierService {
 		Optional<Carrier> option = carrierRespository.findById(id);
 		if (option.isPresent()) {
 			Carrier recievedCarrier = option.get();
-			if (recievedCarrier.getCarrierCompanyName() != null) {
+			if (carrier.getCarrierCompanyName() != null) {
 				recievedCarrier.setCarrierCompanyName(carrier.getCarrierCompanyName());
 			}
-			if (recievedCarrier.getCarrierEmail() != null) {
+			if (carrier.getCarrierEmail() != null) {
 				recievedCarrier.setCarrierEmail(carrier.getCarrierEmail());
 			}
-			if (recievedCarrier.getCarrierContact() != null) {
+			if (carrier.getCarrierContact() != null) {
 				recievedCarrier.setCarrierContact(carrier.getCarrierContact());
 			}
 			carrierRespository.save(recievedCarrier);
