@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ff.logisticsmanangement.dto.ResponseStructure;
 import com.ff.logisticsmanangement.dto.UserDto;
+import com.ff.logisticsmanangement.dto.UserUpdateDto;
 import com.ff.logisticsmanangement.entity.User;
 import com.ff.logisticsmanangement.service.UserService;
 
@@ -80,8 +81,8 @@ public class UserController {
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER')")
 	@PutMapping("/{userId}")
-	public ResponseEntity<ResponseStructure<User>> updateUser(@Valid @RequestBody User user, BindingResult result,  @PathVariable int userId ) {
-		return userService.updateUser(userId, user, result);
+	public ResponseEntity<ResponseStructure<User>> updateUser(@Valid @RequestBody UserUpdateDto user, BindingResult result,  @PathVariable int userId ) {
+		return userService.updateUser( user,userId, result);
 	}
 
 	/*

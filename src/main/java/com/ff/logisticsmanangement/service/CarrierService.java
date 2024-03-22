@@ -76,13 +76,13 @@ public class CarrierService {
 		Optional<Carrier> option = carrierRespository.findById(id);
 		if (option.isPresent()) {
 			Carrier recievedCarrier = option.get();
-			if (recievedCarrier.getCarrierCompanyName() != null) {
+			if (carrier.getCarrierCompanyName() != null) {
 				recievedCarrier.setCarrierCompanyName(carrier.getCarrierCompanyName());
 			}
-			if (recievedCarrier.getCarrierEmail() != null) {
+			if (carrier.getCarrierEmail() != null) {
 				recievedCarrier.setCarrierEmail(carrier.getCarrierEmail());
 			}
-			if (recievedCarrier.getCarrierContact() != null) {
+			if (carrier.getCarrierContact() != null) {
 				recievedCarrier.setCarrierContact(carrier.getCarrierContact());
 			}
 			carrierRespository.save(recievedCarrier);

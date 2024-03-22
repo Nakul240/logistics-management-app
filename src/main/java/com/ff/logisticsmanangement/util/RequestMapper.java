@@ -17,7 +17,7 @@ import lombok.Builder;
 @Component
 @Builder
 public class RequestMapper {
-	public User requestUser(UserDto user,PasswordEncoder passwordEncoder) {
+	public User requestUser(UserDto user, PasswordEncoder passwordEncoder) {
 		return User.builder().userName(user.getUserName()).password(user.getUserPassword())
 				.userPhoneNumber(user.getUserPhoneNumber()).address(user.getAddress()).userRole(user.getUserRole())
 				.build();
@@ -25,7 +25,7 @@ public class RequestMapper {
 
 	public Order getOrder(OrderDto order) {
 		Order receivedOrder = Order.builder().additionalInfo(order.getAdditionalInfo()).cargo(order.getCargo())
-					.loading(order.getLoading()).unloading(order.getUnloading()).build();
+				.loading(order.getLoading()).unloading(order.getUnloading()).build();
 		return receivedOrder;
 	}
 
