@@ -7,6 +7,10 @@ import com.ff.logisticsmanangement.entity.Truck;
 import lombok.Getter;
 import lombok.Setter;
 
+/*
+ * used to return count of Trucks and the list of trucks of a particular carrier company
+ */
+
 @Getter
 @Setter
 public class GetAllTrucksDto {

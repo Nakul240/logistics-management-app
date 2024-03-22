@@ -33,10 +33,13 @@ import com.ff.logisticsmanangement.util.RequestMapper;
 
 @Service
 public class OrderService {
+	
 	@Autowired
 	private OrderRepository orderRepository;
+	
 	@Autowired
 	private RequestMapper requestMapper;
+	
 	@Autowired
 	private CarrierRepository carrierRepository;
 
@@ -46,7 +49,10 @@ public class OrderService {
 	@Autowired
 	private DistanceAndDurationEstimationService estimationService;
 
-	// save the order
+	/*
+	 * friegt cost, loading time and unloading date and time is estimated and set , after which order is saved in the db.
+	 * @see DistanceAndDurationEstimationService
+	 */
 	public ResponseEntity<ResponseStructure<Order>> saveOrder(int carrierId, OrderDto orderDto) throws ParseException {
 
 		Optional<Carrier> getCarrier = carrierRepository.findById(carrierId);
@@ -59,15 +65,20 @@ public class OrderService {
 			Loading loading = order.getLoading();
 			Unloading unloading = order.getUnloading();
 
+			/*
+			 * freight cost and shipment duration is estimated
+			 */
 			EstimatesDto estimates = calculateFrieghtAndDaysEstimates(order.getCargo().getCargoWeight(),
 					order.getLoading().getAddress(), order.getUnloading().getAddress());
 
 			double frieghtCost = estimates.getFrieghtCost();
 			int days = estimates.getDays();
-			System.err.println(days);
 
+			/*
+			 * based on the estimated days of shipment and the loading date : loading time and unloading date and time are set
+			 */
 			LocalDate loadingDate = loading.getLoadingDate();
-			if (loadingDate.isEqual(LocalDate.now())||loadingDate.isAfter(LocalDate.now())) {
+			if (loadingDate.isEqual(LocalDate.now()) || loadingDate.isAfter(LocalDate.now())) {
 
 				unloading.setUnloadingDate(loadingDate.plusDays(days));
 				loading.setLoadingTime(LocalTime.of(12, 00, 00));
@@ -86,6 +97,11 @@ public class OrderService {
 			throw new IdNotFoundException("carrierId not found..!");
 	}
 
+	/*
+	 * freight cost is calculate based on the cargo weight and distance to travel
+	 * 
+	 * the estimated days of shipment is given a additional leeway of 2 days
+	 */
 	public EstimatesDto calculateFrieghtAndDaysEstimates(double cargoWeight, Address loadingAddress,
 			Address unloadingAddress) throws ParseException {
 
@@ -109,6 +125,9 @@ public class OrderService {
 		return estimates;
 	}
 
+	/*
+	 * loading users are updated based on the list of user id provided
+	 */
 	public ResponseEntity<?> loadOrder(int orderId, LoadAndUnLoadDto loadingUsers, BindingResult result) {
 		
 		if (result.hasErrors()) {
@@ -142,6 +161,9 @@ public class OrderService {
 		return new ResponseEntity<ResponseStructure<String>>(rs, HttpStatus.OK);
 	}
 
+	/*
+	 * unloading users are updated based on the list of user id provided
+	 */
 	public ResponseEntity<?> unloadOrder(int orderId, LoadAndUnLoadDto loadingUsers, BindingResult result) {
 		
 		if (result.hasErrors()) {

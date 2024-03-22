@@ -18,6 +18,11 @@ public class DistanceAndDurationEstimationController {
 	@Autowired
 	private DistanceAndDurationEstimationService service;
 	
+	/*
+	 * demo api to get the distance and duration between to address 
+	 * 
+	 * addresses will be converted into lattitudes and longitudes to fetch the result
+	 */
 	@GetMapping("/estimate")
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	public EstimatesDto demo(@RequestParam String loadingAddress, @RequestParam String unloadingAddress) throws ParseException {

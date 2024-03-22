@@ -31,7 +31,11 @@ public class CarrierController {
 	@Autowired
 	private CarrierService carrierService;
 
-	// save the carrier details
+	/*
+	 * saves carrier company details into db
+	 * 
+	 * @returns saved carrier info
+	 */
 	@Operation(description = "Carrier details will be saved in the database", summary = "To Create Carrier info")
 	@ApiResponses(value = { @ApiResponse(description = "Created", responseCode = "201"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -41,7 +45,9 @@ public class CarrierController {
 		return carrierService.createCarrier(carrier, result);
 	}
 
-	// get the carrier details by id
+	/*
+	 * @returns carrier info based on id provided
+	 */
 	@Operation(description = "Carrier details will be retrived from the database", summary = "To get  Carrier info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -50,19 +56,24 @@ public class CarrierController {
 		return carrierService.getCarrier(carrierId);
 	}
 
-	// update the carrier details
+	/*
+	 * updates particular carrier based on id , any parameter can be updated
+	 * 
+	 * @returns updated carrier info
+	 */
 	@Operation(description = "Carrier Details will be updated into the database", summary = "To Update Carrier info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PutMapping("/{carrierId}")
 	public ResponseEntity<ResponseStructure<Carrier>> updateCarrier(@PathVariable int carrierId,
-			@RequestBody Carrier carrier) {
-		return carrierService.updateCarrier(carrierId, carrier);
+			@Valid @RequestBody Carrier carrier, BindingResult bindingResult) {
+		return carrierService.updateCarrier(carrierId, carrier,bindingResult);
 	}
 
-	// delete the carrier details
-
+	/*
+	 * deletes a particular carried based on id
+	 */
 	@Operation(description = "Carrier will be deleted from the database", summary = "To Delete Carrier Info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "404") })
@@ -73,11 +84,13 @@ public class CarrierController {
 		return carrierService.deleteCarrier(carrierId);
 	}
 
-	// get all carrier Details
-
+	/*
+	 * @returns List of all the Carriers present in the db
+	 */
 	@Operation(description = " All Carrier  details will be retrived from the database", summary = "To get all  Carrier info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@GetMapping
 	public ResponseEntity<ResponseStructure<List<Carrier>>> getAllCarrier() {
 		return carrierService.getAllCarrier();

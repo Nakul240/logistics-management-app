@@ -15,19 +15,34 @@ import org.springframework.stereotype.Service;
 import com.ff.logisticsmanangement.dao.UserRepository;
 import com.ff.logisticsmanangement.entity.User;
 import com.ff.logisticsmanangement.util.Role;
-
+/*
+ * customer UserDetailService class to implement the inbuilt methods
+ * 
+ */
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
 	
+	/*
+	 * the username is taken from basic auth and is verified in the database
+	 * 
+	 * @returns by calling buildUserDetails()
+	 * 
+	 * @see buildUserDetails()
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByUserName(username);
 		return buildUserDetails(user);
 	}
 	
+	/*
+	 * here role based Authorities is assigned 
+	 * 
+	 * @returns UserDetails object by providing userName, encoded password and role
+	 */
 	public UserDetails buildUserDetails(User user) {
 		Collection<GrantedAuthority> authorities=new ArrayList<GrantedAuthority>();
 		Role role= user.getUserRole();
