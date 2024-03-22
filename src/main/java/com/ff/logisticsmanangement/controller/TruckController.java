@@ -31,6 +31,11 @@ public class TruckController {
 	@Autowired
 	private TruckService service;
 
+	/*
+	 * add a truck to the database , truck has a carrier id i.e the carrier company it belongs to..
+	 * 
+	 * @returns saved truck
+	 */
 	@Operation(description = "A truck of Specific Carrier company is Added to the DB", summary ="Add a truck")
 	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Created"),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
@@ -40,6 +45,11 @@ public class TruckController {
 		return service.addTruck(truck, result);
 	}
 
+	/*
+	 * updates truck info , only parameters to be updated can be provided
+	 * 
+	 * @returns updated truck info
+	 */
 	@Operation(description = "Specified truck id info updated to DB", summary ="Update truck info")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
@@ -49,6 +59,9 @@ public class TruckController {
 		return service.updateTruck(truckId, truck, result);
 	}
 
+	/*
+	 * deletes a particular truck from db.
+	 */
 	@Operation(description = "Specified truck id deleted from DB", summary ="Delete Truck")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
@@ -58,6 +71,9 @@ public class TruckController {
 		return service.deleteTruck(truckId);
 	}
 
+	/*
+	 * @returns list of Truck belonging to a carrier company(based on carrier id) and its count 
+	 */
 	@Operation(description = "Trucks of specified Carried id is retrieved from DB", summary ="Get all Trucks")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })

@@ -10,9 +10,12 @@ import com.ff.logisticsmanangement.entity.User;
 
 import lombok.Builder;
 
+/*
+ * used to remove setting operation in the user and order service methods
+ */
+
 @Component
 @Builder
-
 public class RequestMapper {
 	public User requestUser(UserDto user,PasswordEncoder passwordEncoder) {
 		return User.builder().userName(user.getUserName()).password(user.getUserPassword())

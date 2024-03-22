@@ -33,6 +33,10 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	/*	user info is saved, no authorization need.
+	 * 
+	 * 	@returns saved user info
+	 */
 	@Operation(description = "User will be saved in the database", summary = "To Create User info")
 	@ApiResponses(value = { @ApiResponse(description = "Created", responseCode = "201"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -41,6 +45,10 @@ public class UserController {
 		return userService.saveUser(user, result);
 	}
 
+	/*	get a particular user based on the id provided
+	 * 
+	 * 	@returns fetched user info
+	 */
 	@Operation(description = "Get user based on the given Id ", summary = "To get user")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -50,6 +58,9 @@ public class UserController {
 		return userService.getUserById(userId);
 	}
 
+	/*
+	 * @returns all the users in the database
+	 */
 	@Operation(description = "Get all users from database", summary = "To get all users")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -59,6 +70,11 @@ public class UserController {
 		return userService.getAllUsers();
 	}
 
+	/*
+	 * update user info , parameters to be updated only to be provided
+	 * 
+	 *@returns updated user info
+	 */
 	@Operation(description = "User Details will be updated into the database", summary = "To update user info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -68,6 +84,9 @@ public class UserController {
 		return userService.updateUser(userId, user, result);
 	}
 
+	/*
+	 * deletes a particular user based on Id provided
+	 */
 	@Operation(description = "User will be deleted from the database", summary = "To Delete user Info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "404") })

@@ -34,7 +34,11 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 
-	// save the order
+	/*
+	 * save an order including carrier, cargo, loanding and unloading points
+	 * 
+	 * @returns the placed order info
+	 */
 	@Operation(description = "Order details will be saved in the database", summary = "To Create Order info")
 	@ApiResponses(value = { @ApiResponse(description = "Created", responseCode = "201"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -46,7 +50,11 @@ public class OrderController {
 		return orderService.saveOrder(order.getCarrierId(), order);
 	}
 
-	// update the loading users
+	/*
+	 * update a particular order's loading users list
+	 * 
+	 * @returns the Success message on updation
+	 */
 	@Operation(description = "Update the loadingUsers in the database", summary = "To Update loadingUsers info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -57,7 +65,11 @@ public class OrderController {
 		return orderService.loadOrder(orderId, loadingUsers, result);
 	}
 
-	// update the unloading users
+	/*
+	 * update a particular order's unloading users list
+	 * 
+	 * @returns the Success message on updation
+	 */
 	@Operation(description = "Update the unloadingUsers in the database", summary = "To Update unloadingUsers info")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -68,6 +80,9 @@ public class OrderController {
 		return orderService.unloadOrder(orderId, loadingUsers, result);
 	}
 
+	/*
+	 * deletes a particular order based on the id , Admin only
+	 */
 	@Operation(description = "Delete the order", summary = "deleting the order")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -77,6 +92,9 @@ public class OrderController {
 		return orderService.deleteOrderById(orderId);
 	}
 
+	/*
+	 * @returns all the orders from the database
+	 */
 	@Operation(description = "Get all the order details", summary = "all the order details")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
@@ -88,6 +106,11 @@ public class OrderController {
 
 	}
 
+	/*
+	 * updates a order , any parameter can be updated
+	 * 
+	 * @returns updated order info
+	 */
 	@Operation(description = "update the order details using order id", summary = "update the order details")
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })

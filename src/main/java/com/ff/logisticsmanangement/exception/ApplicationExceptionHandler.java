@@ -40,6 +40,16 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler{
 		structure.setMessage("Bad Request");
 		structure.setData("You are not authorized to perform particular operation!");
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.FORBIDDEN);
-		
 	}
+	
+	@ExceptionHandler(NullPointerException.class)
+	public ResponseEntity<ResponseStructure<String>> handleNullPointerException(NullPointerException exception){
+		
+		ResponseStructure<String> structure = new ResponseStructure<String>();
+		structure.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		structure.setMessage("Bad Request");
+		structure.setData("Input cannot be null");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.BAD_REQUEST);
+	}
+
 }

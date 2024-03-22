@@ -28,7 +28,9 @@ public class TruckService {
 	@Autowired
 	private CarrierRepository carrierRepository;
 
-	// save truck to the database after checking the carrierId presence in the db
+	/*
+	 * save truck to the database after checking the carrierId presence in the db
+	 */
 	public ResponseEntity<ResponseStructure<Truck>> addTruck(Truck truck, BindingResult result) {
 		
 		
@@ -58,7 +60,9 @@ public class TruckService {
 			throw new IdNotFoundException("Carrier with the Given Id Not Found");
 	}
 
-	// update truck detail accept Truck Status
+	/*
+	 *  update truck detail accept Truck Status
+	 */
 	public ResponseEntity<ResponseStructure<Truck>> updateTruck(int truckId, Truck truck, BindingResult result) {
 		
 		if (result.hasErrors()) {
@@ -95,7 +99,6 @@ public class TruckService {
 		return new ResponseEntity<ResponseStructure<Truck>>(structure, HttpStatus.OK);
 	}
 
-	//delete truck
 	public ResponseEntity<Truck> deleteTruck(int truckId) {
 		Truck truck = repository.findById(truckId)
 				.orElseThrow(() -> new IdNotFoundException("No Truck with the given Id Present"));
@@ -103,7 +106,9 @@ public class TruckService {
 		return new ResponseEntity<Truck>(HttpStatus.OK);
 	}
 
-	//get the list of truck and its count belonging to a carrier company using id
+	/*
+	 * get the list of truck and its count belonging to a carrier company using id
+	 */
 	public ResponseEntity<ResponseStructure<GetAllTrucksDto>> getAllTruckByCarrierId(int carrierId) {
 
 		carrierRepository.findById(carrierId).orElseThrow(()->new IdNotFoundException("Carrier with the Given Id Not Found"));

@@ -33,7 +33,11 @@ public class DriverController {
 		this.driverService = driverService;
 	}
 	
-	
+	/*
+	 * saves a driver info
+	 * 
+	 * @returns saved driver info
+	 */
 	@Operation(description = "To save driver information", summary = "saving driver information" )
 	@ApiResponses(value = {@ApiResponse(description = "Created", responseCode = "201", content = @Content)})
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -44,6 +48,9 @@ public class DriverController {
 		
 	}
 	
+	/*
+	 * @returns driver info by provided id
+	 */
 	@Operation(description = "To get a driver through specific driver Id", summary = "get a driver" )
 	@ApiResponses(value = {@ApiResponse(description = "OK", responseCode = "200", content = @Content)})
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -54,6 +61,11 @@ public class DriverController {
 		
 	}
 	
+	/*
+	 * update driver's personal info , only end point driver role can access
+	 * 
+	 * @returns success message on updation
+	 */
 	@Operation(description = "To update driver info through specific driver Id in the DB", summary = "Update driver info" )
 	@ApiResponses(value = {@ApiResponse(description = "OK", responseCode = "200", content = @Content)})
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'DRIVER')")
@@ -64,6 +76,9 @@ public class DriverController {
 		
 	}
 	
+	/*
+	 * deletes a driver based on id
+	 */
 	@Operation(description = "To delete a driver through specific driver Id", summary = "delete a driver" )
 	@ApiResponses(value = {@ApiResponse(description = "OK", responseCode = "200", content = @Content)})
 	@PreAuthorize("hasAnyAuthority('ADMIN')")

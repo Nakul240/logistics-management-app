@@ -20,10 +20,8 @@ public class CarrierService {
 	@Autowired
 	private CarrierRepository carrierRespository;
 
-	// save the carrier details
-
 	public ResponseEntity<ResponseStructure<Carrier>> createCarrier(Carrier carrier, BindingResult result) {
-		
+
 		if (result.hasErrors()) {
 
 			String message = "";
@@ -35,7 +33,7 @@ public class CarrierService {
 			}
 			throw new IdNotFoundException(message);
 		}
-		
+
 		Carrier savedCarrier = carrierRespository.save(carrier);
 		ResponseStructure<Carrier> response = new ResponseStructure<Carrier>();
 		response.setMessage("success");
@@ -45,8 +43,6 @@ public class CarrierService {
 		return new ResponseEntity<ResponseStructure<Carrier>>(response, HttpStatus.CREATED);
 
 	}
-
-	// get the carrier details by id
 
 	public ResponseEntity<ResponseStructure<Carrier>> getCarrier(int id) {
 		Optional<Carrier> carrier = carrierRespository.findById(id);
@@ -62,9 +58,21 @@ public class CarrierService {
 		}
 	}
 
-	// update the carrier details
+	public ResponseEntity<ResponseStructure<Carrier>> updateCarrier(int id, Carrier carrier,
+			BindingResult bindingResult) {
 
-	public ResponseEntity<ResponseStructure<Carrier>> updateCarrier(int id, Carrier carrier) {
+		if (bindingResult.hasErrors()) {
+
+			String message = "";
+
+			for (FieldError error : bindingResult.getFieldErrors()) {
+
+				message += error.getDefaultMessage() + " ,";
+
+			}
+			throw new IdNotFoundException(message);
+		}
+
 		Optional<Carrier> option = carrierRespository.findById(id);
 		if (option.isPresent()) {
 			Carrier recievedCarrier = option.get();
@@ -88,18 +96,15 @@ public class CarrierService {
 		}
 	}
 
-	// delete the Carrier details
-	public ResponseEntity deleteCarrier(int id) {
+	public ResponseEntity<String> deleteCarrier(int id) {
 		Optional<Carrier> carrier = carrierRespository.findById(id);
 		if (carrier.isPresent()) {
 			carrierRespository.deleteById(id);
-			return new ResponseEntity(HttpStatus.OK);
+			return new ResponseEntity<String>(HttpStatus.OK);
 		} else {
 			throw new IdNotFoundException("CarrierId not found..!");
 		}
 	}
-
-	// get all carrier details
 
 	public ResponseEntity<ResponseStructure<List<Carrier>>> getAllCarrier() {
 		List<Carrier> carrierList = carrierRespository.findAll();
